@@ -39,57 +39,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.backup = void 0;
-var web3_storage_1 = require("web3.storage");
-var chalk_1 = __importDefault(require("chalk"));
-var web3_storage_2 = require("web3.storage");
-var zip_1 = require("../helpers/zip");
-function backup(tokens) {
+exports.createZipFile = void 0;
+var zip_a_folder_1 = require("zip-a-folder");
+var path_1 = __importDefault(require("path"));
+function createZipFile() {
     return __awaiter(this, void 0, void 0, function () {
-        var zipFilePath, files, client, cid, e_1;
+        var currentPath, homedir, timestamp, zipFilePath;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    // exec("git init", (error: any, stdout: any, stderr: any) => {
-                    //   if (error) {
-                    //     throw error;
-                    //   }
-                    //   console.log(stderr);
-                    //   console.log(stdout);
-                    // });
-                    if (tokens.length !== 1) {
-                        console.log(chalk_1.default.red("Expected only 1 argument in backup command i.e. web3.storage access token"));
-                        process.exit(1);
-                    }
-                    // Creating zip file.
-                    console.log(chalk_1.default.grey("Creating zip file..."));
-                    return [4 /*yield*/, (0, zip_1.createZipFile)()];
+                    currentPath = path_1.default.resolve("./");
+                    homedir = require("os").homedir();
+                    timestamp = Date.now();
+                    zipFilePath = path_1.default.join(homedir, "".concat(timestamp, ".zip"));
+                    return [4 /*yield*/, (0, zip_a_folder_1.zip)("".concat(currentPath), zipFilePath)];
                 case 1:
-                    zipFilePath = _a.sent();
-                    console.log(chalk_1.default.green("Created zip file at: ".concat(zipFilePath)));
-                    console.log(chalk_1.default.grey("Uploading to Filecoin network..."));
-                    return [4 /*yield*/, (0, web3_storage_2.getFilesFromPath)(zipFilePath)];
-                case 2:
-                    files = _a.sent();
-                    _a.label = 3;
-                case 3:
-                    _a.trys.push([3, 5, , 6]);
-                    client = new web3_storage_1.Web3Storage({ token: tokens[0] });
-                    return [4 /*yield*/, client.put(files)];
-                case 4:
-                    cid = _a.sent();
-                    return [3 /*break*/, 6];
-                case 5:
-                    e_1 = _a.sent();
-                    console.log(chalk_1.default.red(e_1.toString()));
-                    process.exit(1);
-                    return [3 /*break*/, 6];
-                case 6:
-                    console.clear();
-                    console.log(chalk_1.default.green("Project backed up on Filecoin network."));
-                    return [2 /*return*/];
+                    _a.sent();
+                    return [2 /*return*/, zipFilePath];
             }
         });
     });
 }
-exports.backup = backup;
+exports.createZipFile = createZipFile;
