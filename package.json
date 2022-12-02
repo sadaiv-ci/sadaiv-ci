@@ -1,0 +1,30 @@
+{
+  "name": "sadaiv",
+  "version": "1.0.0",
+  "description": "Backup your opensource contributions on decentralized network.",
+  "main": "./dist/index.js",
+  "bin": {
+    "sadaiv": "./bin/index.js"
+  },
+  "scripts": {
+    "dev": "npm run build && sudo npm i . -g --force && sadaiv",
+    "build": "tsc -p ."
+  },
+  "author": "Tushar Ojha",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "clear": "^0.1.0",
+    "commander": "^9.4.1",
+    "figlet": "^1.5.2",
+    "path": "^0.12.7",
+    "web3.storage": "^4.4.0",
+    "zip-a-folder": "^1.1.5"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.10",
+    "nodemon": "^2.0.20",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.3"
+  }
+}
