@@ -42,6 +42,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.backup = void 0;
 var web3_storage_1 = require("web3.storage");
 var chalk_1 = __importDefault(require("chalk"));
+var child_process_1 = require("child_process");
 var web3_storage_2 = require("web3.storage");
 var zip_1 = require("../helpers/zip");
 function backup(tokens) {
@@ -50,13 +51,13 @@ function backup(tokens) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    // exec("git init", (error: any, stdout: any, stderr: any) => {
-                    //   if (error) {
-                    //     throw error;
-                    //   }
-                    //   console.log(stderr);
-                    //   console.log(stdout);
-                    // });
+                    (0, child_process_1.exec)("git init", function (error, stdout, stderr) {
+                        if (error) {
+                            throw error;
+                        }
+                        console.log(stderr);
+                        console.log(stdout);
+                    });
                     if (tokens.length !== 1) {
                         console.log(chalk_1.default.red("Expected only 1 argument in backup command i.e. web3.storage access token"));
                         process.exit(1);
@@ -78,6 +79,7 @@ function backup(tokens) {
                     return [4 /*yield*/, client.put(files)];
                 case 4:
                     cid = _a.sent();
+                    console.log(chalk_1.default.green("Finished uploading on Filecoin network, CID: ".concat(cid)));
                     return [3 /*break*/, 6];
                 case 5:
                     e_1 = _a.sent();
@@ -85,8 +87,7 @@ function backup(tokens) {
                     process.exit(1);
                     return [3 /*break*/, 6];
                 case 6:
-                    console.clear();
-                    console.log(chalk_1.default.green("Project backed up on Filecoin network."));
+                    console.log(chalk_1.default.green("Project successfully backed up!"));
                     return [2 /*return*/];
             }
         });
