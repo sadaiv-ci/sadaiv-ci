@@ -1,6 +1,6 @@
 {
   "name": "sadaiv",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Backup your opensource contributions on decentralized network.",
   "main": "./dist/index.js",
   "bin": {
