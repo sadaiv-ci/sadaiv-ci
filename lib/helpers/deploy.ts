@@ -17,7 +17,7 @@ export async function sendTransactionOnChain({
   developer,
   commitMessage,
   cid }: SendTransactionParams) {
-  const response = await axios.get(SMART_CONTRACT_INTERACTION_ENDPOINT, {
+  const response = await axios.post(SMART_CONTRACT_INTERACTION_ENDPOINT, {
     params: {
       repositoryOwner,
       repositoryName,
@@ -25,7 +25,7 @@ export async function sendTransactionOnChain({
       developer,
       commitMessage,
       cid
-    }
+    },
   });
 
   return response

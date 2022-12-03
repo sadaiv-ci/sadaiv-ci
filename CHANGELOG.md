@@ -1,3 +1,6 @@
+# 0.0.8
+- Changed GET request to POST request because of params.
+
 # 0.0.7
 - Fix query issues on axios.
 
