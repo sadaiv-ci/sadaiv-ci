@@ -4,7 +4,7 @@ import { zip } from "zip-a-folder";
 import path from "path";
 
 export async function createZipFile() {
-  const currentPath = path.resolve("./");
+  const currentPath = path.resolve("./.git");
   const homedir = require("os").homedir();
 
   const timestamp = Date.now();

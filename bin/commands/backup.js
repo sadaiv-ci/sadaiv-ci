@@ -45,9 +45,10 @@ var chalk_1 = __importDefault(require("chalk"));
 var child_process_1 = require("child_process");
 var web3_storage_2 = require("web3.storage");
 var zip_1 = require("../helpers/zip");
-function backup(tokens) {
+var deploy_1 = require("../helpers/deploy");
+function backup(args) {
     return __awaiter(this, void 0, void 0, function () {
-        var zipFilePath, files, client, cid, e_1;
+        var zipFilePath, files, client, cid, response, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -58,8 +59,8 @@ function backup(tokens) {
                         console.log(stderr);
                         console.log(stdout);
                     });
-                    if (tokens.length !== 1) {
-                        console.log(chalk_1.default.red("Expected only 1 argument in backup command i.e. web3.storage access token"));
+                    if (args.length < 7) {
+                        console.log(chalk_1.default.red("Expected 7 arguments in backup command but recieved ".concat(args.length)));
                         process.exit(1);
                     }
                     // Creating zip file.
@@ -74,20 +75,36 @@ function backup(tokens) {
                     files = _a.sent();
                     _a.label = 3;
                 case 3:
-                    _a.trys.push([3, 5, , 6]);
-                    client = new web3_storage_1.Web3Storage({ token: tokens[0] });
+                    _a.trys.push([3, 6, , 7]);
+                    client = new web3_storage_1.Web3Storage({ token: args[0] });
                     return [4 /*yield*/, client.put(files)];
                 case 4:
                     cid = _a.sent();
                     console.log(chalk_1.default.green("Finished uploading on Filecoin network, CID: ".concat(cid)));
-                    return [3 /*break*/, 6];
+                    // Sending transcation for blockchain to index.
+                    console.log(chalk_1.default.grey("Sending transaction to blockchain..."));
+                    return [4 /*yield*/, (0, deploy_1.sendTransactionOnChain)({
+                            repositoryOwner: args[1],
+                            repositoryName: args[2],
+                            branchName: args[3],
+                            developer: args[4],
+                            commitMessage: args[5],
+                            cid: args[6]
+                        })];
                 case 5:
+                    response = _a.sent();
+                    if (response.status !== 200) {
+                        throw Error("Failed to process transaction for the Smart Contract");
+                    }
+                    console.log(chalk_1.default.green("Transaction confirmed, added to the blockchain"));
+                    return [3 /*break*/, 7];
+                case 6:
                     e_1 = _a.sent();
                     console.log(chalk_1.default.red(e_1.toString()));
                     process.exit(1);
-                    return [3 /*break*/, 6];
-                case 6:
-                    console.log(chalk_1.default.green("Project successfully backed up!"));
+                    return [3 /*break*/, 7];
+                case 7:
+                    console.log(chalk_1.default.green("Project backed up successfully!"));
                     return [2 /*return*/];
             }
         });

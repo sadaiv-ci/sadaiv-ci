@@ -4,10 +4,10 @@ import { zip } from "zip-a-folder";
 import chalk from "chalk";
 import { exec } from "child_process";
 import { getFilesFromPath } from "web3.storage";
-import {createZipFile} from '../helpers/zip'
+import { createZipFile } from '../helpers/zip'
+import { sendTransactionOnChain } from "../helpers/deploy";
 
-export async function backup(tokens: string[]) {
-  
+export async function backup(args: string[]) {
   exec("git init", (error: any, stdout: any, stderr: any) => {
     if (error) {
       throw error;
@@ -16,8 +16,8 @@ export async function backup(tokens: string[]) {
     console.log(stdout);
   });
 
-  if(tokens.length !== 1) {
-    console.log(chalk.red("Expected only 1 argument in backup command i.e. web3.storage access token"))
+  if (args.length < 7) {
+    console.log(chalk.red(`Expected 7 arguments in backup command but recieved ${args.length}`))
     process.exit(1);
   }
 
@@ -28,16 +28,31 @@ export async function backup(tokens: string[]) {
 
   console.log(chalk.grey("Uploading to Filecoin network..."))
   const files = await getFilesFromPath(zipFilePath);
-  
-  // Creating storage client.
-  try{
-    const client = new Web3Storage({ token: tokens[0] })
+  try {
+    // Putting the files on Web3Storage.
+    const client = new Web3Storage({ token: args[0] })
     const cid = await client.put(files);
     console.log(chalk.green(`Finished uploading on Filecoin network, CID: ${cid}`))
+
+    // Sending transcation for blockchain to index.
+    console.log(chalk.grey("Sending transaction to blockchain..."))
+    const response = await sendTransactionOnChain({
+      repositoryOwner: args[1],
+      repositoryName: args[2],
+      branchName: args[3],
+      developer: args[4],
+      commitMessage: args[5],
+      cid: args[6]
+    })
+    if(response.status !== 200) {
+      throw Error("Failed to process transaction for the Smart Contract");
+    }
+
+    console.log(chalk.green(`Transaction confirmed, added to the blockchain`))
   } catch (e: any) {
     console.log(chalk.red(e.toString()));
     process.exit(1);
   }
 
-  console.log(chalk.green("Project successfully backed up!"))
+  console.log(chalk.green("Project backed up successfully!"))
 }

@@ -1,0 +1,1 @@
+export const SMART_CONTRACT_INTERACTION_ENDPOINT = "https://sadaiv-web-app.vercel.app/api/sendTransaction"

