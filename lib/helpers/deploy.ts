@@ -1,5 +1,5 @@
+import axios from "axios";
 import { SMART_CONTRACT_INTERACTION_ENDPOINT } from "../config";
-import fetch from "node-fetch";
 
 type SendTransactionParams = {
   repositoryOwner: string,
@@ -17,15 +17,16 @@ export async function sendTransactionOnChain({
   developer,
   commitMessage,
   cid }: SendTransactionParams) {
-
-  const response = await fetch(SMART_CONTRACT_INTERACTION_ENDPOINT + new URLSearchParams({
-    repositoryOwner,
-    repositoryName,
-    branchName,
-    developer,
-    commitMessage,
-    cid
-  }));
+  const response = await axios.get(SMART_CONTRACT_INTERACTION_ENDPOINT, {
+    params: {
+      repositoryOwner,
+      repositoryName,
+      branchName,
+      developer,
+      commitMessage,
+      cid
+    }
+  });
 
   return response
 }

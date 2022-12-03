@@ -59,8 +59,8 @@ function backup(args) {
                         console.log(stderr);
                         console.log(stdout);
                     });
-                    if (args.length < 7) {
-                        console.log(chalk_1.default.red("Expected 7 arguments in backup command but recieved ".concat(args.length)));
+                    if (args.length < 6) {
+                        console.log(chalk_1.default.red("Expected 6 arguments in backup command but recieved ".concat(args.length)));
                         process.exit(1);
                     }
                     // Creating zip file.
@@ -89,7 +89,7 @@ function backup(args) {
                             branchName: args[3],
                             developer: args[4],
                             commitMessage: args[5],
-                            cid: args[6]
+                            cid: cid
                         })];
                 case 5:
                     response = _a.sent();

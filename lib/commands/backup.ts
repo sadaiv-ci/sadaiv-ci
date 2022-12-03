@@ -17,7 +17,7 @@ export async function backup(args: string[]) {
   });
 
   if (args.length < 6) {
-    console.log(chalk.red(`Expected 7 arguments in backup command but recieved ${args.length}`))
+    console.log(chalk.red(`Expected 6 arguments in backup command but recieved ${args.length}`))
     process.exit(1);
   }
 

@@ -39,9 +39,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '14'
-      - name: Install Sadaiv CLI
       - run: npm install -g sadaiv
-      - name: Running Sadaiv CI Backup Command
       - run: sadaiv backup ${{ secrets.WEB3_STORAGE_TOKEN }} ${{ github.repository_owner }} ${{ github.repository }} ${{ github.ref_name }} ${{ github.event.head_commit.committer.email }} ${{ github.event.head_commit.message }}
 ```
 
