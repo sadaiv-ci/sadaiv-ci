@@ -28,8 +28,8 @@ Therefore, with Sadaiv CI developers can work with the comfort of web2 solutions
 
 #### STEP 2: Add this code to your workflow
 Adding workflow.yml file will allow you to integrate the sadaiv CI directly into your project without installing anything locally.
-
-name: sadaiv-ci
+```yaml
+name: Sadaiv CI
 on: [push]
 jobs:
   production-deploy:
@@ -39,5 +39,12 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '14'
+      - name: Install Sadaiv CLI
       - run: npm install -g sadaiv
-      - run: sadaiv backup ${{ secrets.WEB3_STORAGE_TOKEN }}
+      - name: Running Sadaiv CI Backup Command
+      - run: sadaiv backup ${{ secrets.WEB3_STORAGE_TOKEN }} ${{ github.repository_owner }} ${{ github.repository }} ${{ github.ref_name }} ${{ github.event.head_commit.committer.email }} ${{ github.event.head_commit.message }}
+```
+
+### About smart contract
+
+Deployed on Polygon Mumbai Testnet: **0x4D81b6650134493F5833a499eD44c0B94415EE48**

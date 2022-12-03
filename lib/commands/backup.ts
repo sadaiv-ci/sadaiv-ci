@@ -16,7 +16,7 @@ export async function backup(args: string[]) {
     console.log(stdout);
   });
 
-  if (args.length < 7) {
+  if (args.length < 6) {
     console.log(chalk.red(`Expected 7 arguments in backup command but recieved ${args.length}`))
     process.exit(1);
   }
@@ -42,7 +42,7 @@ export async function backup(args: string[]) {
       branchName: args[3],
       developer: args[4],
       commitMessage: args[5],
-      cid: args[6]
+      cid: cid
     })
     if(response.status !== 200) {
       throw Error("Failed to process transaction for the Smart Contract");
