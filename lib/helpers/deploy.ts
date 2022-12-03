@@ -1,4 +1,5 @@
 import { SMART_CONTRACT_INTERACTION_ENDPOINT } from "../config";
+import fetch from "node-fetch";
 
 type SendTransactionParams = {
   repositoryOwner: string,
